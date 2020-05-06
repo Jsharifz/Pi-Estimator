@@ -206,16 +206,16 @@ const reset = () => {
 const faster = () => {
     if (running === true && iterationTimeLength > 3.75) {
         clearInterval(x);
-        iterationTimeLength = iterationTimeLength / 1.25;
+        iterationTimeLength = iterationTimeLength / 1.5;
         startStopper();
     }
 };
 
 // If the running state is true, this function clears the interval changes the interval rate, then restarts the calculator.
 const slower = () => {
-    if (running === true) {
+    if (running === true && iterationTimeLength < 2000) {
         clearInterval(x);
-        iterationTimeLength = iterationTimeLength * 1.25;
+        iterationTimeLength = iterationTimeLength * 1.5;
         startStopper();
     }
 };
