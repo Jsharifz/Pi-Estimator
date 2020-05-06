@@ -1,0 +1,31 @@
+* {
+    font-family: sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#pi {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+#pi div {
+    display: flex;
+    flex-direction: row;
+    width: 350px;
+    justify-content: center;
+}
+
+#pi div p {
+    width: 50%;
+}
