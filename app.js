@@ -168,37 +168,38 @@ const reset = () => {
 
     pi.innerHTML = `
     <div>
-        <p>Run:</p>
-        <p></p>
-    </div>
-    <div>
-        <p>Rise:</p>
-        <p></p>
-    </div>
-    <div>
-        <p>Hypotenuse:</p>
-        <p></p>
-    </div>
-    <div>
-        <p>Rate:</p>
-        <p></p>
-    </div>
-    <div>
-        <p># of Success:</p>
-        <p></p>
-    </div>
-    <div>
-        <p># of Iterations:</p>
-        <p></p>
-    </div>
-    <div>
-        <p>Estimated Pi:</p>
-        <p></p>
-    </div>
-    <div>
-        <p>Error:</p>
-        <p></p>
-    </div>
+    <p>Rise:</p>
+    <p>${rise}</p>
+</div>
+<div>
+    <p>Run:</p>
+    <p>${run}</p>
+</div>
+<div>
+    <p>Hypotenuse:</p>
+    <p>${hypotenuse}</p>
+</div>
+<div>
+    <p>Rate:</p>
+    <p>${iterationRate} Cycles/Second</p>
+</div>
+<div>
+    <p># of Success:</p>
+    <p>${hypotenuseWithinCircle}</p>
+</div>
+<div>
+    <p># of Iterations:</p>
+    <p>${iterations}</p>
+</div>
+<div>
+    <p>Estimated Pi:</p>
+    <p>${piEstimated}</p>
+</div>
+<div>
+    <p>Error:</p>
+    <p>${error}</p>
+</div>
+
     `;
 };
 
