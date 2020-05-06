@@ -47,7 +47,7 @@ let piHtml = document.getElementById("pi");
 let pointer = document.getElementById("quadrant");
 
 // Start of the function that runs the calculator.
-let piEstimator = () => {
+const piEstimator = () => {
     // Needed to start counting.
     iterations++;
 
@@ -134,7 +134,7 @@ const startStopper = () => {
         // Starts the interval if "Start" is clicked.
         x = setInterval(piEstimator, iterationTimeLength);
     } else if (running === false) {
-        // Stios the inverval if the "Pause" is clicked.
+        // Clears the inverval if the "Pause" is clicked.
         clearInterval(x);
     }
 };
