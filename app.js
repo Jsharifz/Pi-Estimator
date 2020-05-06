@@ -52,7 +52,7 @@ let piEstimator = () => {
     iterations++;
 
     // Converts interval time (ms) to intervals per second.
-    iterationRate = Math.floor(1000 / iterationTimeLength);
+    iterationRate = (1000 / iterationTimeLength).toFixed(2);
 
     // These variables reasign themselves to a value between (inclusive) 0 and 1.
     run = Math.random() * (1 - 0) + 0;
