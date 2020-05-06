@@ -5,6 +5,15 @@ let rise = 0;
 let run = 0;
 let hypotenuse = 0;
 
+// Simply the ratio of run/rise multiplied by 90 to get an angle for the pointer.
+let angle = 0;
+
+// Determine the height/length of the pointer equal to the hypotenuse.
+let pointerHeight = 0;
+
+// The color of the pointer if the hypotenuse is within the boundaries or not.
+let hitOrMiss = "green";
+
 // A counter that adds up when the length of the hypotenuse is within the circle.
 let hypotenuseWithinCircle = 0;
 
@@ -35,6 +44,7 @@ let piCalculator = (x) => {
 
 // Used to display the values in the DOM.
 let piHtml = document.getElementById("pi");
+let pointer = document.getElementById("quadrant");
 
 // Start of the function that runs the calculator.
 let piEstimator = () => {
@@ -42,7 +52,7 @@ let piEstimator = () => {
     iterations++;
 
     // Converts interval time (ms) to intervals per second.
-    iterationRate = 1000 / iterationTimeLength;
+    iterationRate = Math.floor(1000 / iterationTimeLength);
 
     // These variables reasign themselves to a value between (inclusive) 0 and 1.
     run = Math.random() * (1 - 0) + 0;
@@ -51,9 +61,16 @@ let piEstimator = () => {
     // The hypotenuse is calculated by calling the required functon.
     hypotenuse = hypotenuseCalculation(rise, run);
 
+    // These simply calculate the length and angle of the pointer.
+    pointerHeight = hypotenuse * 600;
+    angle = (run / hypotenuse) * 90;
+
     // Checks to see if the imaginary end point of the hypotenuse is greater than or less than 0. The radius of the circle is given by default as the maximum value if the rise or run cannot exceed 1. Example: If the run is 0 and the rise is 1, the hypotenuse is 1. If the rise AND run are 1, the hypotenuse is 1.41 and therefore the length is longer than the radius of the circle.
     if (hypotenuse <= 1) {
         hypotenuseWithinCircle++;
+        hitOrMiss = "green";
+    } else {
+        hitOrMiss = "red";
     }
 
     // This variable sets the value of Pi depending on the total number of points in the circle and the total iterations.
@@ -95,6 +112,15 @@ let piEstimator = () => {
     <div>
         <p>Error:</p>
         <p>${error}</p>
+    </div>
+    `;
+
+    pointer.innerHTML = `
+    <div class="square">
+        <div
+            class="pointer"
+            style="height: ${pointerHeight}px; border: 1px solid ${hitOrMiss};  background-color: ${hitOrMiss}; transform: rotate(${angle}deg);"
+        ></div>
     </div>
     `;
 };
@@ -142,11 +168,11 @@ const reset = () => {
 
     pi.innerHTML = `
     <div>
-        <p>Rise:</p>
+        <p>Run:</p>
         <p></p>
     </div>
     <div>
-        <p>Run:</p>
+        <p>Rise:</p>
         <p></p>
     </div>
     <div>

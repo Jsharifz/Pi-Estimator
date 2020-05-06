@@ -29,3 +29,51 @@ body {
 #pi div p {
     width: 50%;
 }
+
+#quadrant {
+    margin-top: 1rem;
+}
+
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+
+    width: 300px;
+    height: 300px;
+
+    border: 1px solid black;
+
+    overflow: hidden;
+}
+
+.pointer {
+    position: relative;
+
+    width: 2px;
+    border-radius: 3px;
+
+    right: 150px;
+    top: 150px;
+}
+
+.second-square {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+
+    overflow: hidden;
+
+    bottom: 46px;
+}
+
+.circle {
+    position: relative;
+    right: 300px;
+
+    height: 600px;
+    width: 600px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
