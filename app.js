@@ -95,7 +95,7 @@ let piEstimator = () => {
     </div>
     <div>
         <p>Rate:</p>
-        <p>${iterationRate} Iterations/Second</p>
+        <p>${iterationRate} Cycles/Second</p>
     </div>
     <div>
         <p># of Success:</p>
@@ -204,7 +204,7 @@ const reset = () => {
 
 // If the running state is true, this function clears the interval changes the interval rate, then restarts the calculator.
 const faster = () => {
-    if (running === true) {
+    if (running === true && iterationTimeLength > 3.75) {
         clearInterval(x);
         iterationTimeLength = iterationTimeLength / 1.25;
         startStopper();
