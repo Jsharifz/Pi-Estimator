@@ -62,7 +62,7 @@ let piEstimator = () => {
     hypotenuse = hypotenuseCalculation(rise, run);
 
     // These simply calculate the length and angle of the pointer.
-    pointerHeight = hypotenuse * 600;
+    pointerHeight = hypotenuse * 300;
     angle = (run / hypotenuse) * 90;
 
     // Checks to see if the imaginary end point of the hypotenuse is greater than or less than 0. The radius of the circle is given by default as the maximum value if the rise or run cannot exceed 1. Example: If the run is 0 and the rise is 1, the hypotenuse is 1. If the rise AND run are 1, the hypotenuse is 1.41 and therefore the length is longer than the radius of the circle.
