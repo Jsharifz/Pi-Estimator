@@ -26,8 +26,11 @@ let error = 0;
 // The length of time each iteration takes.
 let iterationTimeLength = 1000;
 
+// The number of loops before execution
+let iterationcountertime = 250;
+
 // The rate of iterations per second.
-let iterationRate = 0;
+let iterationRate = 1;
 
 // The total number of iterations generated.
 let iterations = 0;
@@ -42,87 +45,148 @@ let piCalculator = (x) => {
     return (x * 4) / iterations;
 };
 
+let hasStarted = 0;
+
+// this is the actual iteration counter
+let iterationcounter = 0;
+
+// this is the counter for html update
+let htmlupdatecounter = 0;
+
 // Used to display the values in the DOM.
 let piHtml = document.getElementById("pi");
 let pointer = document.getElementById("quadrant");
 
 // Start of the function that runs the calculator.
-const piEstimator = () => {
-    // Needed to start counting.
-    iterations++;
+let piEstimator = () => {
+    if (iterationcounter >= iterationcountertime) {
+        // Needed to start counting.
+        iterations++;
 
-    // Converts interval time (ms) to intervals per second.
-    iterationRate = (1000 / iterationTimeLength).toFixed(2);
+        // These variables reasign themselves to a value between (inclusive) 0 and 1.
+        run = Math.random() * (1 - 0) + 0;
+        rise = Math.random() * (1 - 0) + 0;
 
-    // These variables reasign themselves to a value between (inclusive) 0 and 1.
-    run = Math.random() * (1 - 0) + 0;
-    rise = Math.random() * (1 - 0) + 0;
+        // The hypotenuse is calculated by calling the required functon.
+        hypotenuse = hypotenuseCalculation(rise, run);
 
-    // The hypotenuse is calculated by calling the required functon.
-    hypotenuse = hypotenuseCalculation(rise, run);
+        // These simply calculate the length and angle of the pointer.
+        pointerHeight = hypotenuse * 300;
+        angle = (run / hypotenuse) * 90;
 
-    // These simply calculate the length and angle of the pointer.
-    pointerHeight = hypotenuse * 300;
-    angle = (run / hypotenuse) * 90;
+        // Checks to see if the imaginary end point of the hypotenuse is greater than or less than 0. The radius of the circle is given by default as the maximum value if the rise or run cannot exceed 1. Example: If the run is 0 and the rise is 1, the hypotenuse is 1. If the rise AND run are 1, the hypotenuse is 1.41 and therefore the length is longer than the radius of the circle.
+        if (hypotenuse <= 1) {
+            hypotenuseWithinCircle++;
+            hitOrMiss = "green";
+        } else {
+            hitOrMiss = "red";
+        }
 
-    // Checks to see if the imaginary end point of the hypotenuse is greater than or less than 0. The radius of the circle is given by default as the maximum value if the rise or run cannot exceed 1. Example: If the run is 0 and the rise is 1, the hypotenuse is 1. If the rise AND run are 1, the hypotenuse is 1.41 and therefore the length is longer than the radius of the circle.
-    if (hypotenuse <= 1) {
-        hypotenuseWithinCircle++;
-        hitOrMiss = "green";
+        iterationcounter = 1;
     } else {
-        hitOrMiss = "red";
+        iterationcounter++;
     }
+    htmlupdatecounter++;
+    if (htmlupdatecounter > 10 && iterations != 0) {
+        // This variable sets the value of Pi depending on the total number of points in the circle and the total iterations.
+        piEstimated = piCalculator(hypotenuseWithinCircle);
 
-    // This variable sets the value of Pi depending on the total number of points in the circle and the total iterations.
-    piEstimated = piCalculator(hypotenuseWithinCircle);
+        // This will simply keep track of the accuracy of the calculator by comparing the estimated value with actual value of Pi.
+        error = Math.PI - piEstimated;
 
-    // This will simply keep track of the accuracy of the calculator by comparing the estimated value with actual value of Pi.
-    error = Math.PI - piEstimated;
+        // This will update the portion of HTML so it can be displayed in the browser.
+        pi.innerHTML = `
+            <div>
+                <p>Rise:</p>
+                <p>${rise}</p>
+            </div>
+            <div>
+                <p>Run:</p>
+                <p>${run}</p>
+            </div>
+            <div>
+                <p>Hypotenuse:</p>
+                <p>${hypotenuse}</p>
+            </div>
+            <div>
+                <p>Rate:</p>
+                <p>${iterationRate} Cycles/Second</p>
+            </div>
+            <div>
+                <p># of Success:</p>
+                <p>${hypotenuseWithinCircle}</p>
+            </div>
+            <div>
+                <p># of Iterations:</p>
+                <p>${iterations}</p>
+            </div>
+            <div>
+                <p>Estimated Pi:</p>
+                <p>${piEstimated}</p>
+            </div>
+            <div>
+                <p>Error:</p>
+                <p>${error}</p>
+            </div>
+            `;
 
+        pointer.innerHTML = `
+            <div class="square">
+                <div
+                    class="pointer"
+                    style="height: ${pointerHeight}px; border: 1px solid ${hitOrMiss};  background-color: ${hitOrMiss}; transform: rotate(${angle}deg);"
+                ></div>
+            </div>
+            `;
+        htmlupdatecounter = 0;
+    }
+};
+
+let pausescreen = () => {
     // This will update the portion of HTML so it can be displayed in the browser.
     pi.innerHTML = `
-    <div>
-        <p>Rise:</p>
-        <p>${rise}</p>
-    </div>
-    <div>
-        <p>Run:</p>
-        <p>${run}</p>
-    </div>
-    <div>
-        <p>Hypotenuse:</p>
-        <p>${hypotenuse}</p>
-    </div>
-    <div>
-        <p>Rate:</p>
-        <p>${iterationRate} Cycles/Second</p>
-    </div>
-    <div>
-        <p># of Success:</p>
-        <p>${hypotenuseWithinCircle}</p>
-    </div>
-    <div>
-        <p># of Iterations:</p>
-        <p>${iterations}</p>
-    </div>
-    <div>
-        <p>Estimated Pi:</p>
-        <p>${piEstimated}</p>
-    </div>
-    <div>
-        <p>Error:</p>
-        <p>${error}</p>
-    </div>
-    `;
+        <div>
+            <p>Rise:</p>
+            <p>${rise}</p>
+        </div>
+        <div>
+            <p>Run:</p>
+            <p>${run}</p>
+        </div>
+        <div>
+            <p>Hypotenuse:</p>
+            <p>${hypotenuse}</p>
+        </div>
+        <div>
+            <p>Rate:</p>
+            <p>${iterationRate} Cycles/Second</p>
+        </div>
+        <div>
+            <p># of Success:</p>
+            <p>${hypotenuseWithinCircle}</p>
+        </div>
+        <div>
+            <p># of Iterations:</p>
+            <p>${iterations}</p>
+        </div>
+        <div>
+            <p>Estimated Pi:</p>
+            <p>${piEstimated}</p>
+        </div>
+        <div>
+            <p>Error:</p>
+            <p>${error}</p>
+        </div>
+        `;
 
     pointer.innerHTML = `
-    <div class="square">
-        <div
-            class="pointer"
-            style="height: ${pointerHeight}px; border: 1px solid ${hitOrMiss};  background-color: ${hitOrMiss}; transform: rotate(${angle}deg);"
-        ></div>
-    </div>
-    `;
+        <div class="square">
+            <div
+                class="pointer"
+                style="height: ${pointerHeight}px; border: 1px solid ${hitOrMiss};  background-color: ${hitOrMiss}; transform: rotate(${angle}deg);"
+            ></div>
+        </div>
+        `;
 };
 
 // The given state by default; will change with a click of a button.
@@ -132,21 +196,29 @@ let running = false;
 const startStopper = () => {
     if (running === true) {
         // Starts the interval if "Start" is clicked.
-        x = setInterval(piEstimator, iterationTimeLength);
+        x = setInterval(piEstimator, 4);
     } else if (running === false) {
-        // Clears the inverval if the "Pause" is clicked.
+        // Stios the inverval if the "Pause" is clicked.
         clearInterval(x);
+        y = setInterval(pausescreen, 50);
     }
 };
 
 // This function changes the running status from false to true.
 const start = () => {
+    if (hasStarted == 1) {
+        clearInterval(y);
+    } else {
+        hasStarted = 1;
+    }
+
     // Checks if the state is true or false. If the loop and state is not provided, repeated clicking of "Start" will stack the intervals.
     if (running === false) {
         // Since the default status is false, it changes it to true.
         running = true;
         // After changing the state, the function is envoked to operate the calculator
         startStopper();
+        iterationcounter = iterationcountertime;
     }
 };
 
@@ -165,58 +237,31 @@ const reset = () => {
     // The main values requried to estimate Pi are reset when this function is envoked.
     hypotenuseWithinCircle = 0;
     iterations = 0;
-
-    pi.innerHTML = `
-    <div>
-    <p>Rise:</p>
-    <p>${rise}</p>
-</div>
-<div>
-    <p>Run:</p>
-    <p>${run}</p>
-</div>
-<div>
-    <p>Hypotenuse:</p>
-    <p>${hypotenuse}</p>
-</div>
-<div>
-    <p>Rate:</p>
-    <p>${iterationRate} Cycles/Second</p>
-</div>
-<div>
-    <p># of Success:</p>
-    <p>${hypotenuseWithinCircle}</p>
-</div>
-<div>
-    <p># of Iterations:</p>
-    <p>${iterations}</p>
-</div>
-<div>
-    <p>Estimated Pi:</p>
-    <p>${piEstimated}</p>
-</div>
-<div>
-    <p>Error:</p>
-    <p>${error}</p>
-</div>
-
-    `;
+    hypotenuse = 0;
+    run = 0;
+    rise = 0;
+    piEstimated = 0;
+    error = 0;
 };
 
 // If the running state is true, this function clears the interval changes the interval rate, then restarts the calculator.
 const faster = () => {
-    if (running === true && iterationTimeLength > 3.75) {
+    if (iterationTimeLength > 4) {
         clearInterval(x);
         iterationTimeLength = iterationTimeLength / 1.5;
+        iterationcountertime = iterationTimeLength / 4;
+        iterationRate = (1000 / Math.ceil(iterationTimeLength)).toFixed(2);
         startStopper();
     }
 };
 
 // If the running state is true, this function clears the interval changes the interval rate, then restarts the calculator.
 const slower = () => {
-    if (running === true && iterationTimeLength < 2000) {
+    if (iterationTimeLength < 2000) {
         clearInterval(x);
         iterationTimeLength = iterationTimeLength * 1.5;
+        iterationcountertime = iterationTimeLength / 4;
+        iterationRate = (1000 / Math.ceil(iterationTimeLength)).toFixed(2);
         startStopper();
     }
 };
